@@ -98,4 +98,6 @@ print(df[['combined', 'embedding']].head(3))
 
 # (可选) 保存结果到 CSV (注意：CSV 存储向量效率低，大项目建议存 parquet 或 pickle)
 df.to_pickle("./datas/embeddings_local.pkl")
+df.to_csv("./datas/embeddings_local.csv")
 print("💾 已保存为 pickle 文件 (推荐格式)")
+print("已保存为csv文件")
