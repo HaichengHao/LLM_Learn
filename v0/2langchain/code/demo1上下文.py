@@ -6,7 +6,7 @@ from langchain_core.runnables import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
-
+from langchain.chat_models import init_chat_model
 from dotenv import load_dotenv
 import os
 
@@ -22,9 +22,19 @@ openai_llm = ChatOpenAI(
     model=MODEL_NAME,
     api_key=openai_api_key,
     base_url=openai_base_url,
-    temperature=1.0
+    temperature=1.0,
+    max_tokens=400,
+    max_retries=2
 )
 
+#tips:或者这样定义
+open_ai_llm =init_chat_model(
+    model=MODEL_NAME,
+    model_provider='openai',
+    api_key=openai_api_key,
+    base_url=openai_base_url,
+    temperature=1.0
+)
 
 #step 2  创建提示词模板
 
