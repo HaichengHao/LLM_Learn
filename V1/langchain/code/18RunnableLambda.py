@@ -63,3 +63,4 @@ resp = chain.invoke({
 })
 
 print(resp)
+print(chain.get_graph().print_ascii()) #tips：打印链的图像描述

@@ -13,8 +13,9 @@ def fun2(a2):
 
 runnable_paralell=RunnableParallel({'key1':fun1,'key2':fun2})
 
-res = runnable_paralell.invoke('你好')
+res = runnable_paralell.invoke('你好',config={'max_concurrency':2})
 #tips:调用后会把参数同时传递给两个函数fun1,func2,然后运行结束之后会把两个函数运行返回的结果封装为一个字典
+#   传入的配置中的max_concurrency是最大并行运行数
 print(res)
 '''
 {'key1': '你好__func1_output', 'key2': '你好__func2_output'}

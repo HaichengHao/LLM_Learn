@@ -21,6 +21,7 @@ zhipu_base_url=os.getenv('zhipu_base_url')
 
 
 #tips:调用俩模型
+# 可以溯源源码，发现返回的都是RunnableSequence对象
 model1 = ChatOpenAI(
     api_key=api_key,
     base_url=base_url,
@@ -48,7 +49,6 @@ chain=prompt|RunnableParallel({'gpt4o-mini':model1,'zpqy':model2})
 
 resp = chain.invoke({'user_instruction':'什么是L2范数?如何计算'})
 print(resp)
-
 # async def main():
 #     resp = await chain.invoke({'user_instruction':'什么是L2范数?如何计算'})
 #     print(resp)
