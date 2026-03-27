@@ -31,7 +31,7 @@ chain2 = {
     "text1":lambda x:x+'world',
     "text2":lambda x:x+',how are u?'
 }|RunnablePassthrough().assign(word_count=lambda x:len(x['text1'])+len(x['text2']))
-
+#important：runnable的__ror__实现了将字典也转为runnable对象的方法
 
 result = chain2.invoke('hello')
 print(result)

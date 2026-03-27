@@ -12,7 +12,7 @@ r2 = RunnableLambda(lambda x:int(x)+20)
 #在加法计算中的后备选项,注意,传入的是runnable对象,传入的是列表形式
 
 #tips:如果r1运行报错了就让r2接力
-chain = r1.with_fallbacks([r2])
+chain = r1.with_fallbacks([r2]) #tips:注意传入的一定要是列表包裹的Runnable实例,所以我们上面才用RunnableLambda将普通函数转换为Runnable实例
 
 print(chain.invoke(2))
 

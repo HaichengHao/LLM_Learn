@@ -8,6 +8,8 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import ChatHuggingFace
+# 👇👇👇 关键步骤：设置国内镜像源 (必须在 import sentence_transformers 之前设置)
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 load_dotenv()

@@ -22,6 +22,8 @@ model = ChatOpenAI(
     temperature=0.7
 )
 
+
+# theway 1 pydantic方式
 class FilmItem(BaseModel):
     film_name:Annotated[str,Field(description='电影名称')]
     film_outdate:Annotated[str,Field(description='电影上映时间')]

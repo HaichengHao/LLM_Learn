@@ -7,6 +7,9 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+#tips:如果要科学上网走代理,那就设置一下,注意端口号
+# os.environ['http_proxy']='127.0.0.1:7890'
+# os.environ['https_proxy']='127.0.0.1:7890'
 api_key = os.getenv('API_KEY')
 if not api_key:
     raise ValueError('你还没配key')

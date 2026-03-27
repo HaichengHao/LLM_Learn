@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图片描述</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            height: 300px; /* 固定高度，避免内容过多时页面过长 */
+            overflow-y: auto; /* 添加滚动条 */
+        }
+    </style>
+</head>
+<body>
+
+<h1>多模态图片描述</h1>
+
+<input type="text" id="imageUrl" placeholder="请输入图片URL">
+<button onclick="describeImage()">获取描述</button>
+
+<div id="output"></div>
+
+<script>
+async function describeImage() {
+    const imageUrl = document.getElementById('imageUrl').value;
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = ''; // 清空之前的结果
+
+    try {
+        const response = await fetch('http://localhost:8000/describe/stream', {  // 确保这里的 URL 是正确的
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image_url: imageUrl })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value, { stream: true });
+            outputDiv.innerHTML += chunk; // 追加到输出区域
+            outputDiv.scrollTop = outputDiv.scrollHeight; // 滚动到底部
+        }
+    } catch (error) {
+        console.error(error); // 在控制台打印错误信息
+        outputDiv.innerHTML = `请求失败：${error.message}`;
+    }
+}
+</script>
+
+</body>
+</html>
