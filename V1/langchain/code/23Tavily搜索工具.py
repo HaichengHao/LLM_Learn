@@ -5,7 +5,7 @@
 当我们问模型实时信息时它是不知道的,
 这时候我们需要借助Tavily搜索工具让它联网搜索
 '''
-
+import datetime
 
 from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
@@ -27,11 +27,10 @@ model = ChatOpenAI(
 
 #important:langchain内置的一个工具,可以轻松地使用Tavily搜索引擎作为工具
 search = TavilySearch(
-
     max_results=2, #tips:定义只返回两个结果,默认5个
 )
-
-res = search.invoke('今天辽宁沈阳市和平区的天气怎么样?')
+now_date_time=datetime.datetime.now()
+res = search.invoke(f'今天{now_date_time}辽宁沈阳市和平区的天气怎么样?')
 
 print(res)
 '''

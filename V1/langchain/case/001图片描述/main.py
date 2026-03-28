@@ -105,8 +105,24 @@ async def describe_stream(request:ImageRequest):
             yield error_msg
             return
 
+    #important:构造流式响应,可以传入我们的生成器对象生成的内容,这样生成和响应就都是流式响应了
     return StreamingResponse(event_generator(),media_type='text/plain; charset=utf-8')
 
+    '''
+    class StreamingResponse(Response):
+    body_iterator: AsyncContentStream
+
+    def __init__(
+        self,
+        content: ContentStream,
+        status_code: int = 200,
+        headers: Mapping[str, str] | None = None,
+        media_type: str | None = None,
+        background: BackgroundTask | None = None,
+    ) -> None:
+    
+    '''
+#     tips:可以看一下源码,上面要求传入的是一个可迭代的同步或者异步对象，我们定义的event_generator就是异步生成器,生成异步content
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)

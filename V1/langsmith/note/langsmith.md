@@ -12,6 +12,7 @@
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ["LANGSMITH_ENDPOINT"] = "https://api.smith.langchain.com"
 os.environ["LANGSMITH_API_KEY"] = f'{langsmith_key}'
+os.environ['LANGCHAIN_PROJECT']='名字' #tips:如果你要把它归类到一个项目中去管理的话就加上
 ```
 其它一切正常写就行,代码如下
 
