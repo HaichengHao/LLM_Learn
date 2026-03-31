@@ -1,14 +1,9 @@
 # @Time    : 2026/3/30 11:21
 # @Author  : hero
 # @File    : 02大模型使用tools.py
-# from gradio.mcp import tool
 from langchain_core.tools import tool
-from langchain_core.runnables import Runnable
 from langchain_openai import ChatOpenAI
-from langchain_core.tools import Tool
-from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
-from langchain_core.output_parsers import StrOutputParser
 import os
 
 from openai import base_url
@@ -51,15 +46,36 @@ def bind_tools(self,
                parallel_tool_calls: bool | None = None,
                response_format: dict[str, Any] | type | None | Any = None,
                **kwargs: Any) -> Runnable[PromptValue | str | Sequence[BaseMessage | list[str] | tuple[str, str] | str | dict[str, Any]], AIMessage]'''
-mytools=[calc_expo]
-model_with_tool=model.bind_tools(mytools)
+mytools=[calc_expo]  #tips:设置工具序列,可以传入多个工具
+model_with_tool=model.bind_tools(mytools) #tips:为模型绑定工具返回新的模型
 
+#tips：然后调用新模型
 res=model_with_tool.invoke(
    '计算2的5次方'
 )
-print(res)
+# print(res)
 """content='' additional_kwargs={'refusal': None} response_metadata={'token_usage': {'completion_tokens': 21, 'prompt_tokens': 66, 'total_tokens': 87, 'completion_tokens_details': {'accepted_prediction_tokens': 0, 'audio_tokens': 0, 'reasoning_tokens': 0, 'rejected_prediction_tokens': 0}, 'prompt_tokens_details': {'audio_tokens': 0, 'cached_tokens': 0}}, 'model_provider': 'openai', 'model_name': 'gpt-4o-mini-2024-07-18', 'system_fingerprint': 'fp_eb37e061ec', 'id': 'chatcmpl-DOxndx3KBVVhRX9bGVdk5vpoju3kX', 'finish_reason': 'tool_calls', 'logprobs': None} id='lc_run--019d3cd5-65c4-7502-b306-640be8f43dde-0' tool_calls=[{'name': 'calc_expo', 'args': {'base': 2, 'exponent': 5}, 'id': 'call_FILAATKDRCkxUq7CEoGBJGKZ', 'type': 'tool_call'}] invalid_tool_calls=[] usage_metadata={'input_tokens': 66, 'output_tokens': 21, 'total_tokens': 87, 'input_token_details': {'audio': 0, 'cache_read': 0}, 'output_token_details': {'audio': 0, 'reasoning': 0}}
 
 """
 print(res.tool_calls)
 # [{'name': 'calc_expo', 'args': {'base': 2, 'exponent': 5}, 'id': 'call_adFgwZ7UvI3QRyMXKcvtFBjP', 'type': 'tool_call'}]
+
+print(globals())
+
+#important:想调用需要先自己维护一个字典,然后其中的键值对分别是工具的名称和工具实例
+toolsmap={
+    'calc_expo':calc_expo
+    #维护其它tool_name和真正的tool实例
+}
+
+for tool_call in res.tool_calls:#遍历接受工具名称和工具的参数
+    tool_name=tool_call['name']
+    args=tool_call['args']
+    res = toolsmap[tool_name].invoke(args) #tips:通过这样的方式来调用
+
+    #tips:或者不用写映射字典,而是使用global来全局调用,如果用这种方法的话就不用写上面的字典了!!
+    res2 = globals()[tool_name].invoke(args)
+    print(res)
+    # 32 成功!!!
+
+

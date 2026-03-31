@@ -45,3 +45,5 @@ print(res)
 '''
 #tips:让模型绑定工具
 # model.bind_tools([search])
+
+#important:其实这是之后Agent中的内容,这里先做个简单了解,之后构建agent结合tools就能明白了
