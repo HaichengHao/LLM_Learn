@@ -37,7 +37,7 @@ def calc_expo(base:int,exponent:int):
 
 #tips:接下来就是让大模型绑定tools使用.bind_tools
 
-'''看看源码,要求传入的是BaseTool序列，刚好调用tool创建的工具返回的就是BaseTool
+'''看看源码,要求传入的是BaseTool序列，刚好调用@tool创建的工具返回的就是BaseTool，可以把鼠标放在@tool上看看
 def bind_tools(self,
                tools: Sequence[dict[str, Any] | type | (...) -> Any | BaseTool],
                *,

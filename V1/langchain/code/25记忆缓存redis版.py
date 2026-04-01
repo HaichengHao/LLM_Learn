@@ -33,8 +33,9 @@ prompt_template = ChatPromptTemplate(
 parser = StrOutputParser()
 
 chain=prompt_template|llm_glm|parser
-
-REDIS_URL='redis://127.0.0.1:6379/6'
+#------从接下来这一块儿开始便是实现的方式了---------
+# REDIS_URL='redis://127.0.0.1:6379/6'
+REDIS_URL='redis://127.0.0.1:65522/6' #tips:测试docker redis/redis-stack-server
 def get_session_history(session_id:str):
     return RedisChatMessageHistory(
         session_id=session_id,
@@ -45,12 +46,12 @@ def get_session_history(session_id:str):
 
 runnable_with_redis = RunnableWithMessageHistory(
     chain,
-    get_session_history,
+    get_session_history, #important:这里是必须要指定的,不然就无法根据sessionid来获取同一sessionid的上文
     input_messages_key='user_input',
     history_messages_key='history'
 )
 
-
+# -------------------------------------------
 config = RunnableConfig(configurable={'session_id':'chat_1'})
 
 
