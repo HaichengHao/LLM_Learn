@@ -15,7 +15,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 load_dotenv()
 
 model_name = "Qwen/Qwen1.5-1.8B-Chat"
-tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True) #tips:加载分词器
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     device_map='auto',

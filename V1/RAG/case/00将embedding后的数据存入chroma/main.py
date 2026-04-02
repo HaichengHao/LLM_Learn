@@ -1,7 +1,7 @@
 # @Time    : 2026/3/29 17:26
 # @Author  : hero
 # @File    : main.py
-from langchain_chroma import Chroma
+from langchain_chroma import Chroma #important:导入需要的chroma
 import torch
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.document_loaders import UnstructuredWordDocumentLoader
@@ -42,6 +42,13 @@ def save2chroma(documents,embed_model,save_path):
         documents=documents, #tips:接受一个文档切分后的列表
         embedding=embed_model, #tips 传入一个embedding模型
         persist_directory=save_path #tips:传入db文件要保存的路径
+    )
+
+    #tips:还有另外一种写法噢!⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️⚠️️️
+    vectorstore2 = Chroma(
+        collection_name='example_collection',
+        embedding_function=embed_model,
+        persist_directory=save_path
     )
     print(f'向量库已经保存至{save_path}🎉')
     return vectorstore

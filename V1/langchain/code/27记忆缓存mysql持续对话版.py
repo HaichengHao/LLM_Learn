@@ -40,8 +40,8 @@ parser = StrOutputParser()
 
 chain = prompt_template|llm_zai|parser
 
-
-mysql_url = f'mysql+pymysql://root:{os.getenv("MYSQL_DOCKER")}@127.0.0.1:63306/mem_llm'
+# docker run -d -p 63306:3306 -e MYSQL_ROOT_PASSWORD=xxxxxxx mysql
+mysql_url = f'mysql+pymysql://root:{os.getenv("MYSQL_DOCKER")}@127.0.0.1:63306/mem_llm' #tips:这里我用的是docker
 def get_session_history(session_id:str):
     return SQLChatMessageHistory(
         session_id,
