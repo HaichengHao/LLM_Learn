@@ -1,16 +1,30 @@
-# @Time    : 2026/4/2 17:01
+# @Time    : 2026/4/4 12:09
 # @Author  : hero
-# @File    : 15RedisStack作为向量存储.py
+# @File    : 19有R也有A.py
+
 '''
 uv add redisvl redis,对版本要求有点严格,建议5.3
 '''
 
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 from langchain_community.vectorstores import Redis
 from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_core.documents import Document
 import os
+from langchain_openai import ChatOpenAI
+
 load_dotenv()
+api_key=os.getenv('api_key')
+base_url=os.getenv('base_url')
+llm=ChatOpenAI(
+    api_key=api_key,
+    base_url=base_url,
+    model='gpt-4o-mini'
+)
+
 
 embeddings=DashScopeEmbeddings(
     model='text-embedding-v4',
@@ -27,15 +41,33 @@ documents=[Document(page_content=text,metadata={'source':'manual'}) for text in 
 vector_store=Redis.from_documents(
     documents=documents,
     embedding=embeddings,
-    redis_url='redis://127.0.0.1:65522/0',
-    index_name='my_index11'
+    redis_url='redis://127.0.0.1:65522/0', #important：注意,由于redis对于langchain的vdb有一些限制,所以只能用0号数据库
+    index_name='my_index111'
 )
 
 
 #tips:后续可选，直接用于检索
 
-retriver = vector_store.as_retriever(search_kwagrs={'k':2}) #tips: k为2就是top_k=2即找到最匹配的前两条
-results = retriver.invoke("什么是六度分隔?") #tips:把源码往上翻,可以看到其有祖先类runnable,所以可以用invoke等的runnable方法
+retriever = vector_store.as_retriever(search_kwagrs={'k':2}) #tips: k为2就是top_k=2即找到最匹配的前两条
+# 1. 定义 prompt
+prompt = ChatPromptTemplate.from_template(
+    """你是一个知识助手，请根据以下上下文回答问题：
 
-for res in results:
-    print(f'匹配内容{res.page_content[:100]}...\n来源于{res.metadata}')
+上下文：
+{context}
+
+问题：{question}
+"""
+)
+
+# 2. 构建 chain
+rag_chain = (
+        {"context": retriever, "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+)
+
+# 3. 调用
+response = rag_chain.invoke("什么是六度分隔？")
+print(response)

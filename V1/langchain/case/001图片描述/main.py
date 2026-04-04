@@ -122,7 +122,7 @@ async def describe_stream(request:ImageRequest):
     ) -> None:
     
     '''
-#     tips:可以看一下源码,上面要求传入的是一个可迭代的同步或者异步对象，我们定义的event_generator就是异步生成器,生成异步content
+#     tips:可以看一下源码,上面要求传入的是一个可迭代的同步或者异步对象，我定义的event_generator就是异步生成器,生成异步content
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)

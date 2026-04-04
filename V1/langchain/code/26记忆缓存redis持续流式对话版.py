@@ -71,9 +71,13 @@ async def chat_loop():
         if user_quiz.lower()=='quit':
             break
         try:
-            result = await chain_with_history.ainvoke({'user_input':user_quiz},config)
-            if result:
-                print(f'👨‍🍳{result}\n')
+            # result = await chain_with_history.ainvoke({'user_input':user_quiz},config)
+            # if result:
+            #     print(f'👨‍🍳{result}\n')
+            print('👨‍🍳', end='', flush=True)
+            async for chunk in chain_with_history.astream({'user_input': user_quiz}, config):
+                print(chunk, end='', flush=True)
+            print('\n')
         except Exception as e:
             logger.error(f'\n出错了⚠️:{e}')
 
