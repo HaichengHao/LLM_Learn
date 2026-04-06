@@ -7,6 +7,9 @@ uv add redisvl redis,对版本要求有点严格,建议5.3
 
 from dotenv import load_dotenv
 from langchain_community.vectorstores import Redis
+#tips:当然,你可以不用社区包,而是用langchain_redis
+from langchain_redis import RedisConfig,RedisVectorStore
+
 from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_core.documents import Document
 import os
@@ -31,6 +34,15 @@ vector_store=Redis.from_documents(
     index_name='my_index11'
 )
 
+#important:这是RedisVector的写法
+vector_store2 = RedisVectorStore.from_documents(
+    documents=documents,
+    embedding=embeddings,
+    config=RedisConfig(
+        index_name='my_index11',
+        redis_url='redis://127.0.0.1:65522/0',
+    )
+)
 
 #tips:后续可选，直接用于检索
 

@@ -70,6 +70,10 @@ prompt_template = ChatPromptTemplate(
     ('human','{user_quiz}')]
 )
 
+# Define a function to format the retrieved documents important:或者直接把这个公布功能给提出来
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
 #important:仔细看chain！！！！！
 rag_chain = (
     {
@@ -77,7 +81,7 @@ rag_chain = (
             lambda docs: "\n\n".join([d.page_content for d in docs])
         ),
         "user_quiz": itemgetter("user_quiz"),
-        "history": itemgetter("history")   # ✅ 必须加这一行！！
+        "history": itemgetter("history")   # 必须加这一行！！不然出莱格式文体
     }
     | prompt_template
     | llm
