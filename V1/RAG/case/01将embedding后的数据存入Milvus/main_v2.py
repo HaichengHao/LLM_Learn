@@ -75,21 +75,24 @@ def save2milvus(documents, emb_model):
     # ❗删除旧表（关键）
     if utility.has_collection("document_collection"):
         utility.drop_collection("document_collection")
-    # 2️⃣ 定义 schema
+
+    #tips:整体流程 创建连接 - 构建字段(field) - 构建数据结构(schema) - 构建集合(collection) - 构造数据 - 集合中插入数据
+    # important:2️⃣ 定义 schema 也就是集合(或者理解为表)中的每列数据的数据结构,是{id,向量化数据,原始数据}
     fields = [
         FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
         FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1024),
         FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535),
     ]
 
+    #tips:构建schema，传入我们构造好的fields(字段)以及描述
     schema = CollectionSchema(fields, description="document collection")
 
-    # 3️⃣ 创建 collection
+    # 3️⃣ 创建 collection，传入构建的schema
     collection = Collection("document_collection", schema)
 
-    # 4️⃣ embedding
+    # 4️⃣ embedding 构造embedding数据
     texts = [doc.page_content for doc in documents]
-    embeddings = emb_model.embed_documents(texts)
+    embeddings = emb_model.embed_documents(texts) #important:这里用的就是之前做的那种写法了，可以查看09那个ipnb回顾
 
     # 5️⃣ 插入数据
     data = [
@@ -98,7 +101,7 @@ def save2milvus(documents, emb_model):
     ]
 
     collection.insert(data)
-    collection.create_index(
+    collection.create_index( #tips:为集合创建索引
         field_name="embedding",
         index_params={
             "index_type": "IVF_FLAT",

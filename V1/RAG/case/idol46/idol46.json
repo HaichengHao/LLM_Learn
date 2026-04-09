@@ -239,23 +239,6 @@
       "selection_count": 18
     },
     {
-      "id": "kazumi_takahashi",
-      "name_ja": "高橋朱里",
-      "name_kana": "たかはし あかり",
-      "name_en": "Takahashi Akari",
-      "name_cn": "高桥朱里",
-      "birth_date": "1997-03-10",
-      "birth_place": "埼玉県",
-      "generation": 1,
-      "join_date": "2011-08-21",
-      "status": "graduated",
-      "graduation_date": "2019-05-24",
-      "is_captain": false,
-      "is_vice_captain": false,
-      "center_count": 0,
-      "selection_count": 21
-    },
-    {
       "id": "miun_ando",
       "name_ja": "安藤美雲",
       "name_kana": "あんどう みう",
@@ -271,23 +254,6 @@
       "is_vice_captain": false,
       "center_count": 0,
       "selection_count": 7
-    },
-    {
-      "id": "rika_ishida",
-      "name_ja": "石田晴香",
-      "name_kana": "いしだ はるか",
-      "name_en": "Ishida Haruka",
-      "name_cn": "石田晴香",
-      "birth_date": "1995-08-12",
-      "birth_place": "東京都",
-      "generation": 1,
-      "join_date": "2011-08-21",
-      "status": "graduated",
-      "graduation_date": "2015-05-31",
-      "is_captain": false,
-      "is_vice_captain": false,
-      "center_count": 0,
-      "selection_count": 12
     },
     {
       "id": "rina_yamato",
@@ -348,7 +314,7 @@
       "name_cn": "堀未央奈",
       "birth_date": "1996-10-15",
       "birth_place": "京都府",
-      "generation": 1,
+      "generation": 2,
       "join_date": "2011-08-21",
       "status": "graduated",
       "graduation_date": "2021-09-29",

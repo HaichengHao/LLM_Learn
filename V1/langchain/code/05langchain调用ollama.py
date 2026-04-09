@@ -11,9 +11,12 @@ from langchain_ollama import ChatOllama
 一般调也是用huggingface
 """
 
-ollama = ChatOllama(
-    model='qwen3',
-    base_url = 'https://your_ip_address:port' #tips:如果是部署服务器的话
+
+ollama_llm = ChatOllama(
+  model="deepseek-r1:7b",
+  base_url="http://your-ip:port",
 )
 
-ollama.invoke('你好')
+messages = {"role": "user", "content": "你好，请介绍一下你自己"}
+resp = ollama_llm.invoke(messages)
+print(resp.content)
