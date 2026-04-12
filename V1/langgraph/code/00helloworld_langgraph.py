@@ -38,7 +38,7 @@ graph.add_edge("greeting","addemoji")
 graph.add_edge("addemoji",END)
 
 
-#step 编译图
+#step 编译图为一个runnable程序
 app = graph.compile()
 '''Compiles the StateGraph into a CompiledStateGraph object. 源码中的解释,
     compile可以将一个图编译为一个**被编译后的图对象**   
@@ -54,6 +54,15 @@ print(result)
 print(result['greeting'])
 print(app.get_graph().print_ascii())
 print(app.get_graph().draw_mermaid()) #tips:打印mermid绘图码,复制下来到https://mermaid-live.nodejs.cn/粘贴进去，其实如果用的是jupyter的话会直接画出来的
+
+
+#还有生成图片保存的方式
+output_path = "../demoimgs/"+str(uuid.uuid4())[:8]+'.png'
+with open(output_path,'wb') as f:
+    f.write(app.get_graph().draw_mermaid_png(max_retries=2,retry_delay=2.0))
+
+print(f'保存图成功,路径{output_path}')
+
 '''
 {'name': 'nikofox', 'greeting': '你好 nikofox.......👋'}
 你好 nikofox.......👋

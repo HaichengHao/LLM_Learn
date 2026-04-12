@@ -5,11 +5,11 @@
 import gradio as gr
 
 
-def echo(msg,history):
+def echo(msg,history): #但是要求传入message和history
     print(history)
     return f'your typed:{msg}'
 
-demo = gr.ChatInterface(
+demo = gr.ChatInterface( #不用传入输入输出和调用的函数
     fn=echo,
     autofocus=True, #tips:实现每次对话完毕之后光标默认回到对话框内
     title="对话机器人框架原型",

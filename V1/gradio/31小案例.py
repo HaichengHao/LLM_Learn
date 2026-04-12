@@ -121,6 +121,7 @@ if __name__ == '__main__':
         description="我现在是一名五星级大厨，有什么烹饪问题可以问我！",
         examples=["如何煎牛排？", "怎样做糖醋里脊？", "怎么煮咖啡？"],
         multimodal=False,  # 禁用多模态输入
+        autofocus=True
 
     )
 

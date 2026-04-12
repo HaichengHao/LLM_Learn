@@ -40,7 +40,7 @@ class FilmSuggestion(BaseModel):
 # JsonOutputParser:Parse the output of an LLM call to a JSON object. 把大模型的输出解析为JSON格式
 jsonparser = JsonOutputParser(pydantic_object=FilmSuggestion)  # tips:指定我们自定义的格式
 # tips:构造输出格式
-output_format = jsonparser.get_format_instructions()  # 返回格式化的命令(prompt中给llm的命令)
+output_format = jsonparser.get_format_instructions()  #important: 返回格式化的命令(prompt中给llm的命令) ,可以理解为获取结构化提示词，让llm知道我们要什么格式的
 # print(output_format)
 
 """
