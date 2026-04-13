@@ -15,7 +15,7 @@ from loguru import logger
 from dotenv import load_dotenv
 load_dotenv()
 
-#tips:加载服务器配置,其实就是简单的读取一下mcp.json并将起反序列化(即转换为python字典格式)
+#tips:加载服务器配置,其实就是简单的读取一下mcp.json并将其中反序列化(即转换为python字典格式)
 def load_server_config(file_path:str='mcp.json')->Dict[str,Any]:
     """
     从指定的JSON文件中加载MCP服务器配置

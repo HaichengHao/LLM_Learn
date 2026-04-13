@@ -80,8 +80,9 @@ builder.add_node('input',input_node)
 #tips:给process_node节点绑定参数
 process_with_params=partial(process_node,param1=100,param2='test')
 
-#添加带参数的node节点
-builder.add_node('process',process_with_params,retry=retry_policy)
+#important:添加带参数的node节点
+# 之前写的都省略了,譬如.add_node('nodename','node_function'),其实等价于.add_node(node='nodename',action='node_function')
+builder.add_node(node='process',action=process_with_params,retry_policy=retry_policy)
 
 
 #定义节点之间的执行顺序edges
