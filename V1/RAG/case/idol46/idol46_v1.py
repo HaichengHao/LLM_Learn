@@ -1,16 +1,6 @@
-# @Time    : 2026/4/11 18:47
+# @Time    : 2026/4/14 00:05
 # @Author  : hero
-# @File    : app.py
-
-
-'''
-分步
-加载向量数据
-构建提示词
-构建ragchain
-利用redis-stack-server做历史记录
-用gradio做可视化
-'''
+# @File    : idol46_v1.py
 import gradio as gr
 import torch
 from langchain_core.output_parsers import StrOutputParser
@@ -21,12 +11,14 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from dotenv import load_dotenv
-from langchain_community.chat_message_histories import RedisChatMessageHistory
+from langchain_community.chat_message_histories import RedisChatMessageHistory,SQLChatMessageHistory
 from langchain_core.runnables import RunnableWithMessageHistory, RunnableConfig
 import os
 from operator import itemgetter
 import asyncio
-import uuid  #important:准备实现会话隔离
+import aiomysql
+
+
 load_dotenv()
 MODEL_PATH = '/home/nikofox/.cache/huggingface/hub/models--BAAI--bge-large-zh-v1.5/snapshots/79e7739b6ab944e86d6171e44d24c997fc1e0116'
 
@@ -42,7 +34,7 @@ chroma_store = Chroma(
     persist_directory='./idol46_chroma',
     embedding_function=embed_model,
 )
-retriver = chroma_store.as_retriever(serarch_kwargs={'k': 3})
+retriver = chroma_store.as_retriever(search_kwargs={'k': 5})
 
 llm = ChatOpenAI(
     model='glm-4',
@@ -77,15 +69,20 @@ rag_chain = (
         | StrOutputParser()
 )
 
-def generate_session_id():
-    return str(uuid.uuid4())
 
 def get_session_history(session_id):
-    return RedisChatMessageHistory(
+    # return RedisChatMessageHistory(
+    #     session_id=session_id,
+    #     url='redis://127.0.0.1:65522/6',
+    #     ttl=1200
+    #
+    # )
+    #tips:这个版本使用长期记忆
+    sql_url = 'sqlite+aiosqlite:///./chat_history.db'
+    return SQLChatMessageHistory(
         session_id=session_id,
-        url='redis://127.0.0.1:65522/6',
-        ttl=1200
-
+        connection=sql_url,
+        table_name="idol46_history",
     )
 
 
@@ -97,11 +94,10 @@ chain_with_history = RunnableWithMessageHistory(
 )
 
 
-async def predict_aysnc(message, history,request:gr.Request):
-    session_id = request.session_hash  #tips:做不同用户之间的隔离
+async def predict_aysnc(message, history):
     config_runnable = RunnableConfig(
         configurable={
-            'session_id': session_id
+            'session_id': 'chat_idol_v01'
         }
     )
     full_response = ''

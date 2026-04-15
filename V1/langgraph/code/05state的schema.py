@@ -53,7 +53,7 @@ def demo_input_output_schema():
     print("=== 演示输入输出模式 ===")
 
     # 使用指定的输入和输出模式构建图
-    builder = StateGraph(state_schema=OverallState, input_schema=InputState, output_schema=OutputState)
+    builder = StateGraph(state_schema=OverallState, input_schema=InputState, output_schema=OutputState)#important:还有一个context_schema会在做上下文时候用到
     builder.add_edge(START, "answer_node")  # 定义起始边
     builder.add_node("answer_node", answer_node)  # 添加答案节点
     builder.add_edge("answer_node", END)  # 定义结束边

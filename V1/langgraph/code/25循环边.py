@@ -13,7 +13,7 @@ from typing import Annotated, Dict, Literal
 from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
 from langgraph.errors import GraphRecursionError
-
+from langchain_core.runnables.config import RunnableConfig
 class LoopState(TypedDict):
     count: int
     result: str
@@ -66,13 +66,23 @@ with open(store_path, 'wb') as f:
 # 执行图
 print("=== 开始执行工作流 ===")
 try:
-    result = graph.invoke(input={
-        'count': 0,
-        'result': '',
-        'max_count': 3
-    }, config={
-        'recursion_limit': 6  # 设置递归限制
-    })
+    result = graph.invoke(
+        input={
+            'count': 0,
+            'result': '',
+            'max_count': 3
+        },
+        # config={
+        #     'recursion_limit': 6  # 设置递归限制
+        # }
+        #换一种规范写法
+        config=RunnableConfig(    #important:别忘记了之前runnable对象做一系列方法如invoke,ainvoke,stream,astream等可以传入配置
+            configurable={
+                'recursion_limit':6
+            }
+        )
+
+    )
     print("=== 执行结果 ===")
     print(result)
 except GraphRecursionError as e:
