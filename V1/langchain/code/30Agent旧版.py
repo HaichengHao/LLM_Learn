@@ -112,11 +112,19 @@ async def chat_loop():
         if user_input.lower()=='quit':
             break
         try:
-            res = await chain_with_history.ainvoke(
-                {'user_input':user_input},config
-            )
-            if res:
-                print(res['output'])
+            # res = await chain_with_history.ainvoke(
+            #     {'user_input':user_input},config
+            # )
+            # if res:
+            #     print(res['output'])
+            # tips:改为流式
+            print('🌡', end='', flush=True)
+            async for chunk in chain_with_history.astream(
+                    {'user_input': user_input}, config=config
+            ):
+                print(chunk, end='', flush=True)
+            print('\n')
+
         except Exception as e:
             logger.error(f'出现了如下问题>{e}')
     logger.info('拜拜')

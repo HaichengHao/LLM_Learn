@@ -54,7 +54,7 @@ def main():
 
     for chunk,meta_data in graph.stream(inputs,stream_mode="messages"):
         # print(f'[chunk]:{chunk},[meta_data]:{meta_data}]')
-        print(type(chunk))  #tips:<class 'langchain_core.messages.ai.AIMessageChunk'>返回的是AIMessageChunk
+        # print(type(chunk))  #tips:<class 'langchain_core.messages.ai.AIMessageChunk'>返回的是AIMessageChunk
         print(chunk.content,end='')
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@
 # @Author  : hero
 # @File    : 36A2A.py
 """
-基于 Python3.13 和 LangChain1.0 实现Agent-to-Agent（A2A） 协作案例，
+基于 Python3.12 和 LangChain1.0 实现Agent-to-Agent（A2A） 协作案例，
 模拟携程订机票、美团订酒店、滴滴打车的跨平台智能协作流程，
 核心是让不同领域的专属 Agent 分工协作、完成完整的出行服务闭环
 模拟用户 “从北京飞上海、订浦东机场附近酒店、从机场打车到酒店” 的完整需求：
