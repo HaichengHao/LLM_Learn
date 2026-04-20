@@ -40,6 +40,13 @@ def  loaded_doc(doc_path:str):
         text_content=False
     ).load()
     docs.extend(singles_docs)
+    # 2. 加载所有单曲，每首单曲作为一个Document
+    singles_lyric = JSONLoader(
+        file_path=doc_path,
+        jq_schema='.singles[].lyric',  # 提取 singles 数组中的每个对象
+        text_content=False
+    ).load()
+    docs.extend(singles_lyric)
 
 
     return docs #tips:还是列表里面包含Document对象,就像这样[Document(...),Document(...),...]

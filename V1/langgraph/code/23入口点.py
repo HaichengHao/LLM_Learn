@@ -4,6 +4,8 @@
 
 '''
 之前已经了解过START和END的替代方式,不再赘述
+也就是START写成.set_entry_point('innode')
+END写成set_finish_point('outnode')
 '''
 from langgraph.graph import StateGraph
 from typing import Annotated,TypedDict

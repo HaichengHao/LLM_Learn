@@ -59,14 +59,6 @@ model= ChatOpenAI(
     model='glm-4'
 )
 
-# class WeatherCompareOutput(BaseModel):
-#     city_1name:str
-#     city_1:float
-#     city_2name:str
-#     city_2:float
-#     hotter_city_name:str
-#     summary:str
-
 class WeatherCompareOutput(TypedDict):
     beijing_temp: float
     shanghai_temp: float

@@ -139,7 +139,7 @@ builder.add_node("chat", chat_node)
 builder.add_edge(START, "chat")
 
 # 编译图并使用存储
-graph = builder.compile(store=store)
+graph = builder.compile(store=store)  #important：指定store就行了
 
 # 第一轮对话
 print("1. 第一轮对话:")

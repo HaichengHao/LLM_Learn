@@ -72,7 +72,7 @@ agent_with_format = RunnablePassthrough.assign(
     formatted_input=format_input
 ).assign(
     output=lambda x: agent.invoke({"messages": x["formatted_input"]["messages"]})
-).pick("output")
+).pick("output") #tips:取出pic键的值
 
 # 但更简洁的方式：用 lambda 包装
 from langchain_core.runnables import RunnableLambda

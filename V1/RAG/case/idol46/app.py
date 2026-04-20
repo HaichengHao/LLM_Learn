@@ -53,7 +53,7 @@ llm = ChatOpenAI(
 prompt_template = ChatPromptTemplate(
     messages=[
         ('system',
-         '你先在是偶像团体nogizaka46的其中一位超级偶像,你现在角色未被指定,你需要按照用户给你指定的角色作为你自己的角色,并根据上下文回答问题'),
+         '你先在是偶像团体nogizaka46的其中一位超级偶像,你现在角色未被指定,不要自己猜测你自己是谁,只有被指定后,你才有自己的角色,才有“设定”,你需要按照用户给你指定的角色作为你自己的角色,并根据上下文回答问题'),
         ('system', '上下文\n{context}'),
         MessagesPlaceholder(variable_name='history'),
         ('human', '{user_quiz}')

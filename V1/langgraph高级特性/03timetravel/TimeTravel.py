@@ -138,7 +138,7 @@ def main():
 
     # 2. 查看历史状态
     print("2. 查看第一个故事的历史状态...")
-    states1 = list(graph.get_state_history(config1))
+    states1 = list(graph.get_state_history(config1)) #important：使用get_state_history方法检索特定thread_id的执行历史，
 
     print("历史状态:")
     for i, state in enumerate(states1):
@@ -155,7 +155,7 @@ def main():
     # 3. 下一步节点: ('set_setting',)
     #  检查点ID: 1f103431-a499-650f-8001-b96045a4ed87
     #  状态值: {'character': '一只会说话的猫'}
-    character_state = states1[2]  # 索引2对应create_character执行后的状态
+    character_state = states1[2]  # 索引2对应create_character执行后的状态，important：注意，虽说是倒着出来的，但是我们取的时候可是正经按照输出的顺序取的
     print(f"选中的状态: {character_state.next}")
     print(f"选中的状态值: {character_state.values}")#tips:{'character': '一只会说话的猫', 'setting': '在一个神秘的图书馆里'}
 
