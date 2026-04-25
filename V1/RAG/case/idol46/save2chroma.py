@@ -1,4 +1,4 @@
-# @Time    : 2026/4/11 11:06
+# @Time    : 2026/4/6 11:06
 # @Author  : hero
 # @File    : save2chroma.py
 from langchain_chroma import Chroma

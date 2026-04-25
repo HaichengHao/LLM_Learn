@@ -32,7 +32,7 @@ def main():
         .add_edge(START,'node_1')
         .add_edge('node_1',END)
 
-        .compile(checkpointer=psqlDB)
+        .compile(checkpointer=psqlDB) #tips:依旧是编译的时候传入进去
     )
 
     config=RunnableConfig(

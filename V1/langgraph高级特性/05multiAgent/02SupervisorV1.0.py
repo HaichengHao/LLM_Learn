@@ -64,7 +64,7 @@ supervisor = create_supervisor(
         "- 不要输出任何英文\n"
         "- 所有通信都使用中文\n"
     )
-).compile()  #tips:注意,它也是需要编译的,编译之后就成为了一个Runnable对象
+).compile()  #tips:注意,create_supervisor返回的是一个StateGraph所以要使用的话也是需要编译的,编译之后就成为了一个Runnable对象
 
 
 # 5. 消息过滤器，就是一个工具类，处理大模型返回的重复废话，直接用可以不看
@@ -148,7 +148,7 @@ def main():
         # 创建一个空集合，用于记录已经打印过的消息内容，避免重复显示
         seen_contents = set()
 
-        for chunk in supervisor.stream(input_data):
+        for chunk in supervisor.stream(input_data): #tips:用supervisor来调用
             # 调用filter_messages函数处理当前chunk，提取并过滤其中的消息
             filtered_output = filter_messages(chunk)
             # 如果filtered_output不为空（即有过滤后的消息内容）

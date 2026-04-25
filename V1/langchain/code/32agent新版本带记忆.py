@@ -58,6 +58,8 @@ agent = create_agent(
 
 # ------------------ 记忆适配器 ------------------
 # 我们需要把 {"input": "...", "chat_history": [...]} 转成 {"messages": [...]}
+
+'''
 def format_input(data):
     """将 RunnableWithMessageHistory 的输入转为 agent 所需的 messages 格式"""
     chat_history = data.get("chat_history", [])
@@ -73,11 +75,11 @@ agent_with_format = RunnablePassthrough.assign(
 ).assign(
     output=lambda x: agent.invoke({"messages": x["formatted_input"]["messages"]})
 ).pick("output") #tips:取出pic键的值
-
+'''
 # 但更简洁的方式：用 lambda 包装
 from langchain_core.runnables import RunnableLambda
 
-
+#important:封装一个带历史信息调用的方法
 def invoke_agent_with_history(data):
     messages = data["chat_history"] + [HumanMessage(content=data["input"])]
     result = agent.invoke({"messages": messages})

@@ -1,4 +1,4 @@
-# @Time    : 2026/4/11 18:47
+# @Time    : 2026/4/6 18:47
 # @Author  : hero
 # @File    : app.py
 
@@ -42,7 +42,7 @@ chroma_store = Chroma(
     persist_directory='./idol46_chroma',
     embedding_function=embed_model,
 )
-retriver = chroma_store.as_retriever(serarch_kwargs={'k': 3})
+retriver = chroma_store.as_retriever(search_kwargs={'k': 3})
 
 llm = ChatOpenAI(
     model='glm-4',
