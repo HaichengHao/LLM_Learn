@@ -2,6 +2,8 @@
 # @Author  : hero
 # @File    : 31Agent新版.py
 
+#important:学完langgraph之后回看,发现一个非常关键的要素,那就是create_agent返回的其实就是一个编译过的状态图,
+# 所以它其实可以使用很多langgraph中的属性，比如流输出
 '''
 新版的写法就直接上来就是create_agent了
 '''

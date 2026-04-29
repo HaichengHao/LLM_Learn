@@ -1,6 +1,11 @@
 # @Time    : 2026/4/15 17:42
 # @Author  : hero
 # @File    : 04messages模式.py
+'''
+设置了为messages模式之后调用astream(inputs,stream_mode="messages")返回的将会是一个
+(chunk,metadata)的二元数组!!!!!!!
+'''
+
 import os
 import gradio as gr
 from dotenv import load_dotenv

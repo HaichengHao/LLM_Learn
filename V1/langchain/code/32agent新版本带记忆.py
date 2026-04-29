@@ -88,6 +88,7 @@ def invoke_agent_with_history(data):
     return {"output": last_msg.content if hasattr(last_msg, 'content') else str(last_msg)}
 
 
+#important:利用RunnableLambda将其封装为runnable对象
 agent_runnable = RunnableLambda(invoke_agent_with_history)
 
 # ------------------ 添加记忆 ------------------
@@ -100,7 +101,7 @@ def get_session_history(session_id: str):
 
 # ⭐ 关键：history_messages_key 必须是 "chat_history"
 runnable_with_history = RunnableWithMessageHistory(
-    agent_runnable,
+    agent_runnable, #tips:传入runnable对象
     get_session_history,
     input_messages_key="input",
     history_messages_key="chat_history"
