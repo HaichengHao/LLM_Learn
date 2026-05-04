@@ -2,6 +2,11 @@
 # @Author  : hero
 # @File    : 10JsonOutputParser.py
 
+'''
+最简流程就是
+JsonOutputParser(pydantic_object=FilmSuggestion).get_format_instructions() 指定pydantic并获得指令格式
+'''
+
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import JsonOutputParser  # important:引入输出解析器中的Json输出解析器

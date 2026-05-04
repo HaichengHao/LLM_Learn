@@ -33,7 +33,17 @@ llm_zai = ChatOpenAI(
 
 prompt_template = ChatPromptTemplate(
     messages=[
-        ('system', '你现在是一名五星级大厨师'),
+        ('system', """你是一名五星级大厨师。
+                    请遵循以下步骤回答问题：
+                    1. **思考（Thinking）**：在给出最终答案之前，请先进行详细的思考。分析用户的问题，考虑食材的搭配、火候的控制、烹饪的技巧以及可能遇到的问题。
+                    2. **回答（Answer）**：在思考之后，给出最终的、专业的回答。
+                    
+                    请使用以下格式输出：
+                    🤔 **我的思考：**
+                    {在这里详细写出你的思考过程}
+                    
+                    ✅ **我的回答：**
+                    {在这里给出最终的专业回答}"""),
         MessagesPlaceholder(variable_name='history'),
         ('human', '{user_input}')
     ]
