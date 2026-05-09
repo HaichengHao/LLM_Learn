@@ -131,5 +131,6 @@ if __name__ == '__main__':
         server_name="127.0.0.1",
         server_port=6446,
         share=False,
-        debug=True
+        debug=True,
+        theme=gr.themes.Soft()
     )
