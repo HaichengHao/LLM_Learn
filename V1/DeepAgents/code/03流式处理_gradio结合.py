@@ -31,11 +31,19 @@ def internet_serach(query: str,
                     max_results: int = 3,
                     topic: Literal["general", "news", "finance"] = "general",
                     include_raw_content:bool=False):
+    """
+    这是一个用于联网搜索的工具,你可以用它来进行联网搜索信息
+    :param query:
+    :param max_results:
+    :param topic:
+    :param include_raw_content:
+    :return:
+    """
     return tavily_client.search(
         query=query,
         max_results=max_results,
         topic=topic,
-        include_raw_content=include_raw_content
+        include_raw_content=include_raw_content,
     )
 
 
@@ -52,7 +60,7 @@ Use this to run an internet search for a given query. You can specify the max nu
 deepagent = create_deep_agent(
     model=init_model(),
     tools=[internet_serach],
-    system_prompt=research_instructions
+    system_prompt=research_instructions,
 )
 
 
@@ -111,7 +119,7 @@ if __name__ == '__main__':
             "什么是LORA"
         ],
         multimodal=False,
-        autofocus=True
+        autofocus=True,
 
     )
 
