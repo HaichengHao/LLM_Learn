@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+<div id="output" style="width:500px;height:300px;background:#f0f0f0;overflow:auto;padding:10px;"></div>
+<input id="user_input" type="text" placeholder="输入你的问题..." style="width:400px;">
+<button onclick="sendMessage()">发送</button>
+
+<script>
+let ws;
+
+function connect() {
+    ws = new WebSocket("ws://127.0.0.1:8000/chat/ws");
+
+    ws.onopen = () => {
+        console.log("WebSocket connected");
+    };
+
+    ws.onmessage = (event) => {
+        const output = document.getElementById('output');
+        const text = event.data;
+        if (text === "[DONE]") {
+            output.innerHTML += "<br><b>--- 回答结束 ---</b><br>";
+        } else {
+            output.textContent += text; // 或用 innerHTML += text.replace(/\n/g, '<br>')
+        }
+        output.scrollTop = output.scrollHeight;
+    };
+
+    ws.onclose = () => {
+        console.log("WebSocket disconnected");
+    };
+
+    ws.onerror = (err) => {
+        console.error("WebSocket error:", err);
+    };
+}
+
+function sendMessage() {
+    const input = document.getElementById('user_input');
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    if (ws?.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ user_input: msg }));
+        document.getElementById('output').textContent += `\n\n你: ${msg}\nAI: `;
+        input.value = '';
+    } else {
+        alert("尚未连接到服务器！");
+    }
+}
+
+// 页面加载时自动连接
+window.onload = connect;
+</script>
+</body>
+</html>

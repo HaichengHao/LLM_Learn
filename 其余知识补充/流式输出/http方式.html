@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #output {
+            width: 200px;
+            height: 300px;
+            background-color: #c3e6cb;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="output"></div>
+用户输入:<input id="user_input">
+<button onclick="startStream()">发送</button>
+<script>
+    async function startStream() {
+        const output = document.getElementById('output');
+        const user_input = document.getElementById('user_input').value;
+        output.innerHTML = '';
+        output.innerText = '';
+        try {
+            const response = await fetch('http://127.0.0.1:8000/chat/stream_resp', {
+                    method: 'POST',
+                    headers:{
+                      'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({   //important:发送的是json格式字符串
+                        'user_input': user_input
+                    })
+                }
+            );
+            if (!response.ok) throw new Error('网络响应失败!')
+            const reader = response.body.getReader()
+            const decoder = new TextDecoder('utf-8')
+            let buffer = ''
+            while (true) {
+                const {done, value} = await reader.read()
+                if (done) break;
+                const chunk = decoder.decode(value, {stream: true})
+                buffer += chunk;
+                output.textContent = buffer
+                output.scrollTop = output.scrollHeight;
+            }
+        } catch (err) {
+            console.log('请求出错', err)
+            output.textContent += '\n出错了!' + err.message;
+        }
+    }
+</script>
+</body>
+</html>
