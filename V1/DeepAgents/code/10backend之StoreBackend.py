@@ -34,7 +34,7 @@ main_agent=create_deep_agent(
     model=llm,
     tools=[],
     store=store,#tips:注意这里
-    backend=StoreBackend, #tips:开启k=v库存储 important:触发store的前提是backend要指定为StoreBackend
+    backend=StoreBackend, #tips:开启k=v库存储 important:触发store的前提是backend要指定为StoreBackend,新版本用StoreBackend()实例
     system_prompt="你要把用户的重要信息保存到user_profile.txt文件中!!"
 )
 

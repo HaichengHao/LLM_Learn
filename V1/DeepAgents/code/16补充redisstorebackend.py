@@ -48,7 +48,7 @@ store=InMemoryStore() #tips:也可以不用内存存储,换成数据库也是可
 REDIS_URI=os.getenv('REDIS_DOCKER0')
 
 with RedisStore.from_conn_string(REDIS_URI) as redis_store:
-    redis_store.setup()
+    redis_store.setup()  #important:注意,首次最好是setup一次
 
     #创建main_agent
     main_agent=create_deep_agent(
