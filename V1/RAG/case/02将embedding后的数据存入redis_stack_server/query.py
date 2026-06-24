@@ -25,6 +25,7 @@ vector_store=RedisVectorStore(
 
 #tips:利用向量数据库进行语义搜索
 results=vector_store.similarity_search('国家、集体、私人的物权和其他权利人的物权受法律平等保护',k=3)
+# new_doc=vector_store.add_documents() #important:这里是补充,增量更新的话就用这个方法!!!!
 for i,doc in enumerate(results,start=1):
     print(f'结果{i},\n{doc.page_content[:60]}...\n\t\t来源{doc.metadata}\n')
 
