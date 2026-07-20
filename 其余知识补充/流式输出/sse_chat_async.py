@@ -73,6 +73,26 @@ async def sse_chat(request: Request, user_input: str = Query(...)):
         }
     )
 
+#tips:补充带token验证的
+@app.get("/chat/sse")
+async def sse_chat(
+    request: Request,
+    user_input: str = Query(...),
+    authorization: str = Header(...)
+):
+    # 验证 token
+    if not authorization.startswith("Bearer "):
+        yield "data: {\"error\": \"Invalid token\"}\n\n"
+        return
+
+    token = authorization[7:]
+    if token != "your-secret-token":
+        yield "data: {\"error\": \"Unauthorized\"}\n\n"
+        return
+
+    async for chunk in generate_sse_stream_async(user_input):
+        yield chunk
+
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)
