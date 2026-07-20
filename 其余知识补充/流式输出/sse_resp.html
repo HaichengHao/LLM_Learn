@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Async SSE Chat</title>
+</head>
+<body>
+    <h2>异步 SSE 流式聊天</h2>
+    <input type="text" id="userInput" placeholder="输入你的问题..." />
+    <button onclick="startChat()">发送</button>
+    <div id="output" style="margin-top: 20px; white-space: pre-wrap;"></div>
+
+    <script>
+        function startChat() {
+            const input = document.getElementById("userInput").value.trim();
+            if (!input) return;
+
+            document.getElementById("output").innerText = "";
+
+            const url = `/chat/sse?user_input=${encodeURIComponent(input)}`;
+            const eventSource = new EventSource(url);
+
+            eventSource.onmessage = function(event) {
+                if (event.data === "[DONE]") {
+                    console.log("✅ 流结束");
+                    eventSource.close();
+                    return;
+                }
+
+                try {
+                    const text = JSON.parse(event.data);
+                    document.getElementById("output").innerText += text;
+                } catch (e) {
+                    console.error("解析失败:", event.data, e);
+                }
+            };
+
+            eventSource.onerror = function(err) {
+                console.error("❌ SSE 连接错误:", err);
+                eventSource.close();
+            };
+        }
+    </script>
+</body>
+</html>
