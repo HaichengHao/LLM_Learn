@@ -41,7 +41,6 @@ def get_session_history(session_id:str):
         session_id=session_id,
         url=REDIS_URL,
         ttl=120 #tips:设置两分钟之后过期
-
     )
 
 runnable_with_redis = RunnableWithMessageHistory(

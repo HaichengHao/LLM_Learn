@@ -1,6 +1,6 @@
 import dashscope
 from http import HTTPStatus
-
+from langchain_community.embeddings.dashscope import DashScopeEmbeddings
 input_text = "衣服的质量杠杠的"
 resp = dashscope.TextEmbedding.call(
     model="text-embedding-v4",
