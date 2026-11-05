@@ -1,7 +1,7 @@
 # @Time    : 2026/6/29
 # @Author  : hero (Async SSE version)
 # @File    : sse_chat_async.py
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, Query, Request, Header
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from langchain.chat_models import init_chat_model
@@ -12,6 +12,8 @@ import uvicorn
 import os
 import json
 import asyncio
+
+from pydantic import BaseModel
 
 load_dotenv()
 

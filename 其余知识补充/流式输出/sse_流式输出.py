@@ -12,6 +12,8 @@ import uvicorn
 import os
 import json
 
+from pydantic import BaseModel
+
 load_dotenv()
 
 llm = init_chat_model(
@@ -65,6 +67,26 @@ async def sse_chat(user_input: str = Query(..., description="用户输入")):
         }
     )
 
+#================写法2========================#
+# tips:其实这个可以对照着http方式来改造，因为它俩其实差别不大
+
+class ChatRequest(BaseModel):
+    user_input: str
+
+
+@app.get("/chat/sse")
+async def sse_chat(request: ChatRequest):
+    async def event_generator():
+        try:
+            async for chunk in chain.astream({"user_input": request.user_input}):
+                yield f"data: {json.dumps(chunk)}\n\n"  # important:这里和http有差别
+            yield "data: [DONE]\n\n"
+        except Exception as e:
+            yield f"data:{json.dump({'error':str(e)})}\n\n"
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+    )
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)
