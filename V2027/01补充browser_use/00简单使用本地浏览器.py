@@ -32,7 +32,7 @@ model = init_chat_model(
 # )
 async def main():
     #启动本地chrome
-    browser = await local_browser.launch(headless=False,executable_path="/usr/bin/google-chrome")
+    browser = await local_browser.launch(headless=False,executable_path="/usr/bin/google-chrome") #which google-chrome可以定位到可执行命令
 
     try:
         #创建stagehand客户端
